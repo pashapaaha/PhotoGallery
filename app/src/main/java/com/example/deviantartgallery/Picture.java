@@ -1,5 +1,9 @@
 package com.example.deviantartgallery;
 
+/**
+ * Основная структура данных
+ * Хранит id, название и url изображения
+ */
 public class Picture {
     private String id;
     private String title;

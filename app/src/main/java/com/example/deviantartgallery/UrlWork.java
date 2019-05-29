@@ -23,14 +23,20 @@ public class UrlWork {
 
     private static final String API_KEY = "39591bd9c6c9594a21fc7adfe6dcdedd";
 
-    public List<Picture> fetchItems() {
-        Log.d(TAG, "fetchItems: start");
+    /**
+     * Метод выполняет запрос к API сайта Flickr
+     * И возвращает множество объектов Picture на основе полученных данных
+     *
+     * @return - Множество объектов типа Picture, либо пустое множество
+     */
+    public List<Picture> getPicturesList() {
+        Log.d(TAG, "getPicturesList: start");
         try {
             String url = getRequestString();
-            Log.d(TAG, "fetchItems: getting url is " + url);
+            Log.d(TAG, "getPicturesList: getting url is " + url);
             String jsonString = getUrlString(url);
-            Log.d(TAG, "fetchItems: json successful");
-            Log.i(TAG, "fetchItems: Received JSON:" + jsonString);
+            Log.d(TAG, "getPicturesList: json successful");
+            Log.i(TAG, "getPicturesList: Received JSON:" + jsonString);
 
             return parseItems(new JSONObject(jsonString));
 
@@ -39,11 +45,16 @@ public class UrlWork {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "fetchItems: return empty list");
+        Log.d(TAG, "getPicturesList: return empty list");
         return Collections.emptyList();
     }
 
-    private String getRequestString(){
+    /**
+     * Генерация запроса к API
+     *
+     * @return - url
+     */
+    private String getRequestString() {
         return Uri.parse("https://api.flickr.com/services/rest/")
                 .buildUpon()
                 .appendQueryParameter("method", "flickr.photos.getRecent")
@@ -54,6 +65,13 @@ public class UrlWork {
                 .build().toString();
     }
 
+    /**
+     * Метод проихводит обращение к API по URL и возвращает ответ сервера в виде массива байтов
+     *
+     * @param urlParam - url request
+     * @return - ответ от сервера
+     * @throws IOException
+     */
     public byte[] getUrlBytes(String urlParam) throws IOException {
         URL url = new URL(urlParam);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -77,10 +95,26 @@ public class UrlWork {
         }
     }
 
+    /**
+     * Метод проихводит обращение к API по URL и возвращает ответ сервера в виде строки
+     *
+     * @param url - url request
+     * @return - ответ от сервера
+     * @throws IOException
+     */
     public String getUrlString(String url) throws IOException {
         return new String(getUrlBytes(url));
     }
 
+    /**
+     * Метод выполняет парсинг json-объекта в множество объектов Picture
+     * Для парсинга используется класс JSONObject из стандартной библиотеки
+     *
+     * @param jsonBody
+     * @return
+     * @throws IOException
+     * @throws JSONException
+     */
     private List<Picture> parseItems(JSONObject jsonBody)
             throws IOException, JSONException {
         Log.d(TAG, "parseItems: start");
