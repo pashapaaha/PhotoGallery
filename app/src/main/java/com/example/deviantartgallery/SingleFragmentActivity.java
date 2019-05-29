@@ -1,11 +1,14 @@
 package com.example.deviantartgallery;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+/**
+ * Абстрактный класс для работы с аквивити, состоящими из одного фрагмента
+ * При реализации требует указания экземпляра фрагмента
+ */
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     protected abstract Fragment createFragment();
