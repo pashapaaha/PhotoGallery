@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import com.xwray.groupie.GroupAdapter;
 import com.xwray.groupie.ViewHolder;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -44,14 +43,14 @@ public class GalleryFragment extends Fragment {
         picturesRecyclerView = v.findViewById(R.id.picture_recycler_view);
         picturesRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3,
                 StaggeredGridLayoutManager.VERTICAL));
-        setAdapter(Collections.<Picture>emptyList());
+        setAdapter();
         return v;
     }
 
-    private void setAdapter(List<Picture> pictures){
+    private void setAdapter(){
         if (isAdded()) {
             GroupAdapter<ViewHolder> adapter = new GroupAdapter<>();
-            for (Picture picture : pictures) {
+            for (Picture picture : PictureList.get().getList()) {
                 adapter.add(new PictureItem(picture));
             }
             picturesRecyclerView.setAdapter(adapter);
@@ -70,10 +69,9 @@ public class GalleryFragment extends Fragment {
         protected void onPostExecute(List<Picture> pictures) {
             Log.d(TAG, "onPostExecute: ");
             super.onPostExecute(pictures);
-            setAdapter(pictures);
+            PictureList.get().add(pictures);
+            setAdapter();
         }
     }
-
-
 
 }
