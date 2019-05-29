@@ -24,13 +24,13 @@ public class GalleryFragment extends Fragment {
 
     RecyclerView picturesRecyclerView;
 
-
     public static GalleryFragment newInstance() {
         return new GalleryFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: start");
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         new PictureTask().execute();
@@ -39,6 +39,7 @@ public class GalleryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: start");
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
         picturesRecyclerView = v.findViewById(R.id.picture_recycler_view);
         picturesRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3,
@@ -61,13 +62,13 @@ public class GalleryFragment extends Fragment {
     private class PictureTask extends AsyncTask <Void, Void, List<Picture>> {
         @Override
         protected List<Picture> doInBackground(Void... voids) {
-            Log.d(TAG, "doInBackground: ");
+            Log.d(TAG, "doInBackground: start");
             return new UrlWork().fetchItems();
         }
 
         @Override
         protected void onPostExecute(List<Picture> pictures) {
-            Log.d(TAG, "onPostExecute: ");
+            Log.d(TAG, "onPostExecute: start");
             super.onPostExecute(pictures);
             PictureList.get().add(pictures);
             setAdapter();

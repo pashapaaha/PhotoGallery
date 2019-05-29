@@ -5,10 +5,6 @@ public class Picture {
     private String title;
     private String url;
 
-    public Picture() {
-
-    }
-
     public Picture(String id, String title, String url) {
         this.id = id;
         this.title = title;
